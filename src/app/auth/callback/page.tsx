@@ -4,6 +4,7 @@ import { Suspense, useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseBrowserClient } from "@/lib/supabase";
+import { safeNextPath } from "@/lib/safe-redirect.mjs";
 import { Loader2, AlertTriangle } from "lucide-react";
 
 function LoadingState() {
@@ -51,7 +52,7 @@ function AuthCallbackInner() {
         return;
       }
 
-      const next = searchParams.get("next") || "/app/profile/edit";
+      const next = safeNextPath(searchParams.get("next"));
       setTimeout(() => router.replace(next), 500);
     }
 
